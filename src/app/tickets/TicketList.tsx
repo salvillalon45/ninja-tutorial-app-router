@@ -26,6 +26,9 @@ import Link from 'next/link';
 // Uses dynamic rendering strategy
 // Page needs to be rendered at time of request since data will always be changing
 async function getTickets() {
+	// imitate delay
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+
 	const response = await fetch('http://localhost:4000/tickets', {
 		next: {
 			revalidate: 0 // use 0 to opt out of using cache

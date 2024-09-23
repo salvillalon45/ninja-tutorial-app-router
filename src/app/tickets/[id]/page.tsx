@@ -1,4 +1,4 @@
-import { Ticket, Tickets } from '@/app/types/types';
+import { Tickets, Ticket } from '@/types/types';
 import { notFound } from 'next/navigation';
 
 /*
@@ -30,14 +30,17 @@ export async function generateStaticParams() {
 	const response = await fetch('http://localhost:4000/tickets');
 	const tickets = (await response.json()) as Tickets;
 
-	return tickets.map(({ id }) => {
+	return tickets.map((ticket: Ticket) => {
 		return {
-			id
+			id: ticket.id
 		};
 	});
 }
 
 async function getTicket(id: string) {
+	// imitate delay
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+
 	const response = await fetch('http://localhost:4000/tickets/' + id, {
 		next: {
 			revalidate: 60 // 60 seconds
